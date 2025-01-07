@@ -1,0 +1,93 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #353535;
+}
+h1 {
+    font-size:64px;
+    color:#C5B0DE;
+    font-weight: bold;
+    margin:0;
+    text-align: center;
+}
+.main-page {
+    padding: 0px;
+    
+}
+
+.current-semester {
+    margin:0;
+    text-align: left;
+    color:#BBA7D2;
+    display: flex;
+    font-size: 24px;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    margin-top:20px;
+    margin-left:20px;
+    font-weight: 100;
+}
+
+header {
+    background-color: #232323;
+    color: white;
+    width:100%;
+    position:relative;
+    top:0;
+    padding:10px;
+    vertical-align: middle;
+}
+
+.semester-toggle {
+    display: flex;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.class-item {
+    background-color: #f0f0f0;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.gpa-section {
+    text-align: center;
+    margin-top: 30px;
+}
+/* Change Semester button */
+.btn {
+    display: inline-block;
+    padding: 0.8rem 1.8rem;
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+    border: 3px solid #989898;
+    border-radius: 25px;
+    cursor: pointer;
+    margin:20px 0 0 10px;
+    position: relative;
+    background-color: transparent;
+    text-decoration: none;
+    overflow: hidden;
+    z-index: 1;
+    font-family: inherit;
+}
+   
+.btn::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #7951A8;
+    transform: translateX(-100%);
+    transition: all .3s;
+    z-index: -1;
+}
+   
+.btn:hover::before {
+    transform: translateX(0);
+}
