@@ -18,8 +18,8 @@ const MainPage = () => {
         <h1>Grade Forecast</h1>
       </header>
 
-      <div className="test-api-call">
-        <button class="btn">Change Semester</button>
+      <div className="semester-toggle">
+        <button class="btn">Test API</button>
         <p class="current-semester">Current: Spring 2025</p>
       </div>
 
