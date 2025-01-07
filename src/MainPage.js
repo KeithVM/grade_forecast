@@ -9,6 +9,7 @@ const MainPage = () => {
     { id: 3, name: 'Introduction to Microeconomics', grade: 'A', points: 12 },
     { id: 4, name: 'Analytical Physics 1', grade: 'C', points: 12 },
     { id: 5, name: 'Introduction to Engineering', grade: 'B+', points: 6 },
+    { id: 6, name: 'Introduction to Computer Science', grade: 'D', points: 2},
   ];
 
   return (
@@ -22,11 +23,11 @@ const MainPage = () => {
         <p class="current-semester">Current: Spring 2025</p>
       </div>
 
-      <div className="class-list">
+      <div className="class-list scrollable">
         {testclasses.map((classItem) => (
           <div key={classItem.id} className="class-item">
             <Link to={`/class/${classItem.id}`} state={{classItem}}>
-              <h2>{classItem.name}</h2>
+              <h2 class="class-name">{classItem.name}</h2>
               <p>Grade: {classItem.grade}</p>
             </Link>
           </div>
