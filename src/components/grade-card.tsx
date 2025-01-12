@@ -27,15 +27,15 @@ export function GradeCard({
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                width: 40,
-                                height: 40,
+                                width: 60,
+                                height: 60,
                                 borderRadius: '50%',
                                 backgroundColor: 'primary.main',
                                 color: 'primary.contrastText',
                                 flexShrink: 0,
                             }}
                         >
-                            <Typography variant="h6">{grade}</Typography>
+                            <Typography variant="h4">{grade}</Typography>
                         </Box>
                         <Box>
                             <Typography variant="h6" component="div" sx={{ display: 'flex', alignItems: 'center' }}>
