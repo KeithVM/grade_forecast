@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './output.css';
-import './custom.css';
 import { GradeCard } from './components/grade-card.tsx';
 import { GPAChart } from './components/gpa-chart.tsx';
 
@@ -41,7 +40,7 @@ const MainPage = () => {
           ))}
         </div>
         <div className="text-center mt-0 mr-[10vw] inline-block align-top bg-gray-300 w-[45vw] h-[68vh] rounded-3xl shadow-lg max-w-[70vh] flex-1 bg-white p-6 rounded shadow-md">
-          <header className="text-center inline-block align-top bg-gray-400 mr-8 box-border rounded-t-3xl p-2 relative top-0 w-full mb-4">
+          <header className="text-center align-top bg-gray-300 box-border rounded-t-3xl p-2 relative top-0 w-full mb-4">
             <h2 className="text-purple-400 text-3xl font-semibold">Current Term GPA: 3.82</h2>
           </header>
           <div className="text-center mb-4">

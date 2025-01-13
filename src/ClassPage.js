@@ -94,12 +94,12 @@ export default function ClassPage() {
     };
 
     return (
-    <div className="container mx-auto p-4 space-y-8">
+    <div className="p-0 bg-gray-800 min-h-screen">
         <header className="bg-gray-900 text-white w-full relative top-0 p-2 align-middle mb-6">
             <h1 className="text-5xl font-bold text-center text-purple-600">Grade Forecast</h1>
         </header>
 
-        <h2>{classItem.name}</h2>
+        <h2 className="text-3xl font-bold">{classItem.name}</h2>
         <div className="space-y-4">
         <h2 className="text-2xl font-bold">Grading Systems</h2>
         <div className="flex items-center space-x-2">
@@ -108,11 +108,11 @@ export default function ClassPage() {
             value={newSystemName}
             onChange={(e) => setNewSystemName(e.target.value)}
             placeholder="New system name"
-            className="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            className="px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 bg-gray-700 text-white"
             />
             <button
             onClick={handleSaveSystem}
-            className="px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            className="px-3 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
             >
             Save Current System
             </button>
@@ -120,7 +120,7 @@ export default function ClassPage() {
         <select
             value={currentSystemId || ''}
             onChange={(e) => handleLoadSystem(e.target.value)}
-            className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            className="block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 bg-gray-700 text-white"
         >
             <option value="">Load a grading system</option>
             {gradingSystems.map(system => (
@@ -153,7 +153,7 @@ export default function ClassPage() {
                 value={targetGrade}
                 onChange={(e) => setTargetGrade(parseFloat(e.target.value))}
                 placeholder="Target Grade"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 bg-gray-700 text-white"
                 />
             </div>
             </div>
@@ -187,11 +187,11 @@ export default function ClassPage() {
         <div className="return">
             <button
                 type="button"
-                class="bg-white text-center w-64 rounded-2xl h-14 relative text-black text-xl font-semibold border-4 border-white group"
+                className="bg-gray-700 text-center w-64 rounded-2xl h-14 relative text-white text-xl font-semibold border-4 border-gray-700 group"
                 onClick={() => navigate('/')}
                 >
                 <div
-                    class="bg-purple-400 rounded-xl h-12 w-1/5 grid place-items-center absolute left-0 top-0 group-hover:w-full z-10 duration-500"
+                    className="bg-purple-400 rounded-xl h-12 w-1/5 grid place-items-center absolute left-0 top-0 group-hover:w-full z-10 duration-500"
                 >
                     <svg
                     width="25px"
@@ -200,16 +200,16 @@ export default function ClassPage() {
                     xmlns="http://www.w3.org/2000/svg"
                     >
                     <path
-                        fill="#000000"
+                        fill="#ffffff"
                         d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"
                     ></path>
                     <path
-                        fill="#000000"
+                        fill="#ffffff"
                         d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"
                     ></path>
                     </svg>
                 </div>
-                <p class="translate-x-4 ml-5">Return to Main Page</p>
+                <p className="translate-x-4 ml-5">Return to Main Page</p>
             </button>
         </div>
     </div>
