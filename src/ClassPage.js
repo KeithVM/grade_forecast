@@ -27,6 +27,10 @@ export default function ClassPage() {
     const [useLetterGrades, setUseLetterGrades] = React.useState(true);
     const [letterGradeCutoffs, setLetterGradeCutoffs] = React.useState(defaultLetterGradeCutoffs);
     const [targetGrade, setTargetGrade] = React.useState(90);
+    const location = useLocation();
+    const { classItem } = location.state;
+    const navigate = useNavigate();
+    
 
     React.useEffect(() => {
     const storedSystems = localStorage.getItem('gradingSystems');
@@ -91,7 +95,9 @@ export default function ClassPage() {
 
     return (
     <div className="container mx-auto p-4 space-y-8">
-        <h1 className="text-3xl font-bold">Advanced Grade Calculator</h1>
+        <header class="bg-gray-900 text-white w-full relative top-0 p-2 align-middle">
+            <h1>Grade Forecast</h1>
+        </header>
 
         <div className="space-y-4">
         <h2 className="text-2xl font-bold">Grading Systems</h2>
@@ -177,91 +183,34 @@ export default function ClassPage() {
             targetGrade={targetGrade}
         />
         </div>
+        <div className="return">
+            <button
+                type="button"
+                class="bg-white text-center w-64 rounded-2xl h-14 relative text-black text-xl font-semibold border-4 border-white group"
+                onClick={() => navigate('/')}
+                >
+                <div
+                    class="bg-purple-400 rounded-xl h-12 w-1/5 grid place-items-center absolute left-0 top-0 group-hover:w-full z-10 duration-500"
+                >
+                    <svg
+                    width="25px"
+                    height="25px"
+                    viewBox="0 0 1024 1024"
+                    xmlns="http://www.w3.org/2000/svg"
+                    >
+                    <path
+                        fill="#000000"
+                        d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"
+                    ></path>
+                    <path
+                        fill="#000000"
+                        d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"
+                    ></path>
+                    </svg>
+                </div>
+                <p class="translate-x-4 ml-5">Return to Main Page</p>
+            </button>
+        </div>
     </div>
     );
 }
-  
-// const ClassPage = () => {
-//     const location = useLocation();
-//     const { classItem } = location.state;
-//     const navigate = useNavigate();
-
-//     const classDetails = {
-//         homework: '79.87%',
-//         projects: '89.34%',
-//         participation: '100%',
-//         midterms: '85.61%',
-//         final: '',
-//         weight: {
-//         homework: 10,
-//         projects: 20,
-//         participation: 5,
-//         midterms: 40,
-//         finalExam: 25,
-//         },
-//     };
-
-//     return (
-//         <div className="class-page">
-//         <header class="bg-gray-900 text-white w-full relative top-0 p-2 align-middle">
-//             <h1>Grade Forecast</h1>
-//         </header>
-
-//         <div className="class-details">
-//             <h2>{classItem.name}</h2>
-//             <p>Current Grade: 86.8%</p>
-//             <p>Target Grade: 85%</p>
-//             <div className="grade-chart">{/* Chart Placeholder */}</div>
-
-//             <div className="upcoming-section">
-//             <h3>Upcoming Assignments/Exams</h3>
-//             <ul>
-//                 <li>Problem Set 8: <span>Due Feb 29, 2025</span></li>
-//                 <li>Midterm 2: <span>April 8, 2025</span></li>
-//             </ul>
-//             </div>
-
-//             <div className="grade-weight">
-//             <h3>Grade Weight</h3>
-//             <ul>
-//                 {Object.entries(classDetails.weight).map(([key, value]) => (
-//                 <li key={key}>
-//                     {key}: {value}%
-//                 </li>
-//                 ))}
-//             </ul>
-//             </div>
-//         </div>
-//         <div className="return">
-//             <button
-//                 type="button"
-//                 class="bg-white text-center w-64 rounded-2xl h-14 relative text-black text-xl font-semibold border-4 border-white group"
-//                 onClick={() => navigate('/')}
-//                 >
-//                 <div
-//                     class="bg-purple-400 rounded-xl h-12 w-1/5 grid place-items-center absolute left-0 top-0 group-hover:w-full z-10 duration-500"
-//                 >
-//                     <svg
-//                     width="25px"
-//                     height="25px"
-//                     viewBox="0 0 1024 1024"
-//                     xmlns="http://www.w3.org/2000/svg"
-//                     >
-//                     <path
-//                         fill="#000000"
-//                         d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"
-//                     ></path>
-//                     <path
-//                         fill="#000000"
-//                         d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"
-//                     ></path>
-//                     </svg>
-//                 </div>
-//                 <p class="translate-x-4 ml-5">Return to Main Page</p>
-//             </button>
-//         </div>
-//         </div>
-//     );
-// };
-
-// export default ClassPage;

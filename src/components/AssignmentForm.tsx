@@ -17,11 +17,16 @@ export function AssignmentForm({ categories, assignments, onAddAssignment, onUpd
 
   const handleAddAssignment = () => {
     if (newAssignment.name && newAssignment.categoryId && newAssignment.totalPoints !== undefined) {
-      onAddAssignment({
+      const assignment: Assignment = {
         id: Date.now().toString(),
         score: newAssignment.isGraded ? newAssignment.score || 0 : null,
-        ...newAssignment as Assignment
-      });
+        name: newAssignment.name,
+        categoryId: newAssignment.categoryId,
+        totalPoints: newAssignment.totalPoints,
+        isGraded: newAssignment.isGraded ?? true,
+        date: newAssignment.date || new Date().toISOString().split('T')[0]
+      };
+      onAddAssignment(assignment);
       setNewAssignment({ isGraded: true, date: new Date().toISOString().split('T')[0] });
     }
   };

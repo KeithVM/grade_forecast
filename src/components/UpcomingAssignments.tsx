@@ -1,11 +1,11 @@
 import React from 'react';
-import { Assignment, Category, LetterGradeCutoffs } from '../types.ts';
+import { Assignment, Category, LetterGradeCutoff } from '../types.ts';
 import { calculateFinalGrade } from '../utils/calculations.ts';
 
 interface UpcomingAssignmentsProps {
   assignments: Assignment[];
   categories: Category[];
-  letterGradeCutoffs: LetterGradeCutoffs;
+  letterGradeCutoffs: LetterGradeCutoff;
   targetGrade: number;
 }
 
