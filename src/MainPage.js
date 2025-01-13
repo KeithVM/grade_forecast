@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './MainPage.css';
+import './main.css';
 import { GradeCard } from './components/grade-card.tsx';
 import { GPAChart } from './components/gpa-chart.tsx';
 
@@ -15,19 +15,19 @@ const MainPage = () => {
   ];
 
   return (
-    <div className="main-page">
-      <header className="main-header">
-        <h1>Grade Forecast</h1>
+    <div className="main-page p-6 bg-gray-100 min-h-screen">
+      <header className="main-header mb-6">
+        <h1 className="text-5xl font-bold text-center text-purple-600">Grade Forecast</h1>
       </header>
 
-      <div className="semester-toggle">
-        <button className="btn">Test API</button>
-        <p className="current-semester">Current: Spring 2025</p>
+      <div className="semester-toggle flex justify-between items-center mb-6">
+        <button className="change-semester bg-purple-600 text-white py-2 px-4 rounded hover:bg-purple-700">Test API</button>
+        <p className="current-semester text-xl font-bold text-gray-700">Current: Spring 2025</p>
       </div>
-      <div className="main-content">
-        <div className="class-list scrollable">
+      <div className="main-content flex flex-col md:flex-row gap-6">
+        <div className="class-list scrollable flex-1 overflow-y-auto">
           {testclasses.map((classItem) => (
-            <Link to={`/class/${classItem.id}`} state={{ classItem }} key={classItem.id} className="no-underline">
+            <Link to={`/class/${classItem.id}`} state={{ classItem }} key={classItem.id} className="no-underline block mb-4">
               <GradeCard
                 courseName={classItem.name}
                 grade={classItem.grade}
@@ -38,20 +38,21 @@ const MainPage = () => {
             </Link>
           ))}
         </div>
-        <div className="gpa-section">
-          <header className="gpa-header">
-            <h2 className="text-purple-400 current-term">Current Term GPA: 3.82</h2>
+        <div className="gpa-section flex-1 bg-white p-6 rounded shadow-md">
+          <header className="gpa-header mb-4">
+            <h2 className="text-purple-400 text-3xl font-semibold">Current Term GPA: 3.82</h2>
           </header>
           <div className="text-center mb-4">
-            <h3 className="text-2xl font-bold mb-1">GPA: 3.79</h3>
-            <p className="text-sm text-muted-foreground">
+            <p className="projected-text">Projected</p>
+            <h3 className="gpa-large">GPA: 3.79</h3>
+            <p className="text-lg text-gray-500">
               From Fall 2024 - Spring 2025
             </p>
           </div>
-          <div class="chart-container">
+          <div className="chart-container mb-4">
             <GPAChart />
           </div>
-          <div className="mt-4 text-sm text-muted-foreground">
+          <div className="mt-4 text-lg text-gray-500">
             GPA: 3.76
             <br />
             From Fall 2024 - Fall 2024

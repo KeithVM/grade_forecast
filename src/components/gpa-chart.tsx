@@ -3,9 +3,9 @@ import { Line, LineChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
 
 const data = [
   { date: "Jan 30", gpa: 3.76 },
-  { date: "Feb 15", gpa: 3.82 },
+  { date: "Feb 15", gpa: 3.62 },
   { date: "Mar 1", gpa: 3.79 },
-  { date: "Mar 15", gpa: 3.81 },
+  { date: "Mar 15", gpa: 3.21 },
   { date: "Apr 1", gpa: 3.82 },
   { date: "Apr 15", gpa: 3.79 },
 ]
