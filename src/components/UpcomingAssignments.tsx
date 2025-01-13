@@ -1,6 +1,7 @@
 import React from 'react';
 import { Assignment, Category, LetterGradeCutoff } from '../types.ts';
 import { calculateFinalGrade } from '../utils/calculations.ts';
+import '../output.css';
 
 interface UpcomingAssignmentsProps {
   assignments: Assignment[];

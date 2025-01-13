@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, CardContent, Typography, Box } from '@mui/material';
 import { ExternalLink } from 'lucide-react';
+import '../output.css';
 
 interface GradeCardProps {
     courseName: string;

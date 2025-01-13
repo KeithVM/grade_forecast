@@ -1,5 +1,6 @@
 import React from 'react';
 import { Category } from '../types';
+import '../output.css';
 
 interface GradeWeightFormProps {
   categories: Category[];

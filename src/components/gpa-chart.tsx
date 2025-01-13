@@ -1,5 +1,6 @@
 import React from "react"
 import { Line, LineChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
+import '../output.css';
 
 const data = [
   { date: "Jan 30", gpa: 3.76 },

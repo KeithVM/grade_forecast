@@ -1,6 +1,7 @@
 import React from 'react';
 import { Category, Assignment, LetterGradeCutoff } from '../types';
 import { calculateCategoryAverage, calculateFinalGrade } from '../utils/calculations.ts';
+import '../output.css';
 
 interface GradeDisplayProps {
   categories: Category[];

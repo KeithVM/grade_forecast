@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './main.css';
+import './output.css';
 import { useLocation } from 'react-router-dom';
 import { GradeWeightForm } from './components/GradeWeightForm.tsx';
 import { AssignmentForm } from './components/AssignmentForm.tsx';
@@ -95,10 +95,11 @@ export default function ClassPage() {
 
     return (
     <div className="container mx-auto p-4 space-y-8">
-        <header class="bg-gray-900 text-white w-full relative top-0 p-2 align-middle">
-            <h1>Grade Forecast</h1>
+        <header className="bg-gray-900 text-white w-full relative top-0 p-2 align-middle mb-6">
+            <h1 className="text-5xl font-bold text-center text-purple-600">Grade Forecast</h1>
         </header>
 
+        <h2>{classItem.name}</h2>
         <div className="space-y-4">
         <h2 className="text-2xl font-bold">Grading Systems</h2>
         <div className="flex items-center space-x-2">

@@ -2,7 +2,7 @@ import React from 'react';
 import { Line, LineChart, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Assignment, Category } from '../types';
 import { calculateFinalGrade } from '../utils/calculations.ts';
-import '../main.css';
+import '../output.css';
 
 interface GradeGraphProps {
   assignments: Assignment[];

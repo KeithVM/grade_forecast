@@ -1,5 +1,6 @@
 import React from 'react';
 import { LetterGradeCutoff } from '../types';
+import '../output.css';
 
 interface LetterGradeCutoffsFormProps {
   useLetterGrades: boolean;

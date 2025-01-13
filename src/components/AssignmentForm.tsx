@@ -1,5 +1,6 @@
 import React from 'react';
 import { Assignment, Category } from '../types';
+import '../output.css';
 
 interface AssignmentFormProps {
   categories: Category[];
