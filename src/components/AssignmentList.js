@@ -39,6 +39,8 @@ export default function AssignmentList({ assignments, categories, onAddAssignmen
     }
   };
 
+  const uncategorizedAssignments = assignments.filter(a => !categories.some(c => c.id === a.categoryId));
+
   return (
     <div className="space-y-4">
       <h2 className="text-2xl font-bold mb-4">Assignments</h2>
@@ -82,6 +84,16 @@ export default function AssignmentList({ assignments, categories, onAddAssignmen
                       onChange={(e) => onUpdateAssignment({ ...assignment, date: e.target.value })}
                       className="px-2 py-1 border rounded"
                     />
+                    <select
+                      value={assignment.categoryId}
+                      onChange={(e) => onUpdateAssignment({ ...assignment, categoryId: e.target.value })}
+                      className="w-32 px-2 py-1 border rounded"
+                    >
+                      <option value="">-</option>
+                      {categories.map(category => (
+                        <option key={category.id} value={category.id}>{category.name}</option>
+                      ))}
+                    </select>
                     <button
                       onClick={() => onDeleteAssignment(assignment.id)}
                       className="px-2 py-1 bg-red-500 text-white rounded"
@@ -94,6 +106,65 @@ export default function AssignmentList({ assignments, categories, onAddAssignmen
           )}
         </div>
       ))}
+      {uncategorizedAssignments.length > 0 && (
+        <div className="border rounded-md">
+          <div
+            className="flex justify-between items-center p-3 bg-gray-100 cursor-pointer"
+            onClick={() => toggleCategory('uncategorized')}
+          >
+            <span>Uncategorized Assignments/Exams</span>
+          </div>
+          {openCategory === 'uncategorized' && (
+            <div className="p-3">
+              {uncategorizedAssignments.map(assignment => (
+                <div key={assignment.id} className="flex items-center space-x-2 mb-2">
+                  <input
+                    type="text"
+                    value={assignment.name}
+                    onChange={(e) => onUpdateAssignment({ ...assignment, name: e.target.value })}
+                    className="flex-grow px-2 py-1 border rounded"
+                  />
+                  <input
+                    type="number"
+                    value={assignment.score}
+                    onChange={(e) => onUpdateAssignment({ ...assignment, score: parseFloat(e.target.value) })}
+                    className="w-16 px-2 py-1 border rounded"
+                  />
+                  <span>/</span>
+                  <input
+                    type="number"
+                    value={assignment.totalPoints}
+                    onChange={(e) => onUpdateAssignment({ ...assignment, totalPoints: parseFloat(e.target.value) })}
+                    className="w-16 px-2 py-1 border rounded"
+                  />
+                  <input
+                    type="date"
+                    value={assignment.date}
+                    onChange={(e) => onUpdateAssignment({ ...assignment, date: e.target.value })}
+                    className="w-32 px-2 py-1 border rounded"
+                  />
+                  <select
+                    value={assignment.categoryId}
+                    onChange={(e) => onUpdateAssignment({ ...assignment, categoryId: e.target.value })}
+                    className="w-32 px-2 py-1 border rounded"
+                  >
+                    <option value="">-</option>
+                    {categories.map(category => (
+                      <option key={category.id} value={category.id}>{category.name}</option>
+                    ))}
+                  </select>
+                  <button
+                    onClick={() => onDeleteAssignment(assignment.id)}
+                    className="px-2 py-1 bg-red-500 text-white rounded"
+                  >
+                    Delete
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
       <div className="mt-4 p-4 border rounded-md">
         <h3 className="text-xl font-semibold mb-2">Add New Assignment</h3>
         <div className="space-y-2">
@@ -135,8 +206,17 @@ export default function AssignmentList({ assignments, categories, onAddAssignmen
             className="w-full px-3 py-2 border rounded"
           />
           <button
-            onClick={handleAddAssignment}
-            className="w-full px-4 py-2 bg-green-500 text-black rounded hover:bg-green-600"
+            onClick={() => {
+              onAddAssignment(newAssignment);
+              setNewAssignment({
+                name: '',
+                categoryId: '',
+                score: '',
+                totalPoints: '',
+                date: new Date().toISOString().split('T')[0]
+              });
+            }}
+            className="w-full px-3 py-2 bg-blue-600 text-white rounded"
           >
             Add Assignment
           </button>

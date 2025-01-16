@@ -22,7 +22,7 @@ export default function ClassPage() {
     return localStorage.getItem(`currentSystemId_${classId}`) || null;
   });
 
-  const [gradingSystems] = useState(() => {
+  const [gradingSystems, setGradingSystems] = useState(() => {
     const savedSystems = localStorage.getItem(`gradingSystems_${classId}`);
     return savedSystems ? JSON.parse(savedSystems) : [];
   });
@@ -65,6 +65,34 @@ export default function ClassPage() {
     setAssignments(assignments.filter(a => a.id !== assignmentId));
   };
 
+  const handleAddGradingSystem = () => {
+    const newSystem = {
+      id: Date.now().toString(),
+      name: 'New Grading System',
+      categories: [],
+      useLetterGrades: true,
+      letterGradeCutoffs: [
+        { letter: 'A', minScore: 90 },
+        { letter: 'B', minScore: 80 },
+        { letter: 'C', minScore: 70 },
+        { letter: 'D', minScore: 60 },
+        { letter: 'F', minScore: 0 },
+      ],
+      targetGrade: 90,
+    };
+    setGradingSystems([...gradingSystems, newSystem]);
+    setCurrentSystemId(newSystem.id);
+    navigate(`/class/${classId}/edit`, { state: { classId, systemId: newSystem.id } });
+  };
+
+  const handleDeleteGradingSystem = (systemId) => {
+    const updatedSystems = gradingSystems.filter(system => system.id !== systemId);
+    setGradingSystems(updatedSystems);
+    if (currentSystemId === systemId) {
+      setCurrentSystemId(updatedSystems.length > 0 ? updatedSystems[0].id : null);
+    }
+  };
+
   if (!classId) {
     return <div>Class not found</div>;
   }
@@ -84,6 +112,12 @@ export default function ClassPage() {
                                 <option key={system.id} value={system.id}>{system.name}</option>
                             ))}
                         </select>
+                        <button onClick={handleAddGradingSystem} className="px-4 py-2 bg-green-600 text-blacks rounded-md hover:bg-green-700">
+                          Add Grading System
+                        </button>
+                        <button onClick={() => handleDeleteGradingSystem(currentSystemId)} className="px-4 py-2 bg-red-600 text-black rounded-md hover:bg-red-700">
+                          Delete Grading System
+                        </button>
                         <Link to={`/class/${classId}/edit`} state={{ classId, systemId: currentSystemId }} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
                             Edit Grading System
                         </Link>
