@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function GradeSummary({ assignments, categories, useLetterGrades, letterGradeCutoffs }) {
   const calculateCategoryGrade = (categoryId) => {
-    const categoryAssignments = assignments.filter(a => a.categoryId === categoryId);
+    const categoryAssignments = assignments.filter(a => a.categoryId === categoryId && a.graded);
     if (categoryAssignments.length === 0) return 100;
     const total = categoryAssignments.reduce((sum, a) => sum + (a.score / a.totalPoints), 0);
     return (total / categoryAssignments.length) * 100;

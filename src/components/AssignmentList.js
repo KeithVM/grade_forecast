@@ -3,40 +3,35 @@ import React, { useState } from 'react';
 export default function AssignmentList({ assignments, categories, onAddAssignment, onUpdateAssignment, onDeleteAssignment }) {
   const [openCategory, setOpenCategory] = useState(null);
   const [newAssignment, setNewAssignment] = useState({
+    id: '',
     name: '',
     categoryId: '',
     score: '',
     totalPoints: '',
-    date: new Date().toISOString().split('T')[0]
+    date: new Date().toISOString().split('T')[0],
+    graded: false
   });
 
   const toggleCategory = (categoryId) => {
     setOpenCategory(openCategory === categoryId ? null : categoryId);
   };
 
+  const handleAssignmentUpdate = (updatedAssignment) => {
+    const existingAssignment = assignments.find(a => a.id === updatedAssignment.id);
+    if (existingAssignment) {
+      const updatedAssignmentFull = {
+        ...existingAssignment,
+        ...updatedAssignment
+      };
+      onUpdateAssignment(updatedAssignmentFull);
+    }
+  };
+  
   const calculateCategoryAverage = (categoryId) => {
-    const categoryAssignments = assignments.filter(a => a.categoryId === categoryId);
-    if (categoryAssignments.length === 0) return 'N/A';
+    const categoryAssignments = assignments.filter(a => a.categoryId === categoryId && a.graded);
+    if (categoryAssignments.length === 0) return '100.00%';
     const total = categoryAssignments.reduce((sum, a) => sum + (parseFloat(a.score) / parseFloat(a.totalPoints)), 0);
     return ((total / categoryAssignments.length) * 100).toFixed(2) + '%';
-  };
-
-  const handleAddAssignment = () => {
-    if (newAssignment.name && newAssignment.categoryId && newAssignment.totalPoints) {
-      onAddAssignment({
-        ...newAssignment,
-        id: Date.now().toString(),
-        score: newAssignment.score ? parseFloat(newAssignment.score) : 0,
-        totalPoints: parseFloat(newAssignment.totalPoints)
-      });
-      setNewAssignment({
-        name: '',
-        categoryId: '',
-        score: '',
-        totalPoints: '',
-        date: new Date().toISOString().split('T')[0]
-      });
-    }
   };
 
   const uncategorizedAssignments = assignments.filter(a => !categories.some(c => c.id === a.categoryId));
@@ -62,31 +57,31 @@ export default function AssignmentList({ assignments, categories, onAddAssignmen
                     <input
                       type="text"
                       value={assignment.name}
-                      onChange={(e) => onUpdateAssignment({ ...assignment, name: e.target.value })}
+                      onChange={(e) => handleAssignmentUpdate({ ...assignment, name: e.target.value })}
                       className="flex-grow px-2 py-1 border rounded"
                     />
                     <input
                       type="number"
                       value={assignment.score}
-                      onChange={(e) => onUpdateAssignment({ ...assignment, score: parseFloat(e.target.value) })}
+                      onChange={(e) => handleAssignmentUpdate({ ...assignment, score: parseFloat(e.target.value) })}
                       className="w-16 px-2 py-1 border rounded"
                     />
                     <span>/</span>
                     <input
                       type="number"
                       value={assignment.totalPoints}
-                      onChange={(e) => onUpdateAssignment({ ...assignment, totalPoints: parseFloat(e.target.value) })}
+                      onChange={(e) => handleAssignmentUpdate({ ...assignment, totalPoints: parseFloat(e.target.value) })}
                       className="w-16 px-2 py-1 border rounded"
                     />
                     <input
                       type="date"
                       value={assignment.date}
-                      onChange={(e) => onUpdateAssignment({ ...assignment, date: e.target.value })}
+                      onChange={(e) => handleAssignmentUpdate({ ...assignment, date: e.target.value })}
                       className="px-2 py-1 border rounded"
                     />
                     <select
                       value={assignment.categoryId}
-                      onChange={(e) => onUpdateAssignment({ ...assignment, categoryId: e.target.value })}
+                      onChange={(e) => handleAssignmentUpdate({ ...assignment, categoryId: e.target.value })}
                       className="w-32 px-2 py-1 border rounded"
                     >
                       <option value="">-</option>
@@ -94,9 +89,17 @@ export default function AssignmentList({ assignments, categories, onAddAssignmen
                         <option key={category.id} value={category.id}>{category.name}</option>
                       ))}
                     </select>
+                    <label className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        checked={assignment.graded}
+                        onChange={(e) => handleAssignmentUpdate({ ...assignment, graded: e.target.checked })}
+                      />
+                      <span>Graded</span>
+                    </label>
                     <button
                       onClick={() => onDeleteAssignment(assignment.id)}
-                      className="px-2 py-1 bg-red-500 text-white rounded"
+                      className="px-2 py-1 bg-red-500 text-black rounded"
                     >
                       Delete
                     </button>
@@ -121,31 +124,31 @@ export default function AssignmentList({ assignments, categories, onAddAssignmen
                   <input
                     type="text"
                     value={assignment.name}
-                    onChange={(e) => onUpdateAssignment({ ...assignment, name: e.target.value })}
+                    onChange={(e) => handleAssignmentUpdate({ ...assignment, name: e.target.value })}
                     className="flex-grow px-2 py-1 border rounded"
                   />
                   <input
                     type="number"
                     value={assignment.score}
-                    onChange={(e) => onUpdateAssignment({ ...assignment, score: parseFloat(e.target.value) })}
+                    onChange={(e) => handleAssignmentUpdate({ ...assignment, score: parseFloat(e.target.value) })}
                     className="w-16 px-2 py-1 border rounded"
                   />
                   <span>/</span>
                   <input
                     type="number"
                     value={assignment.totalPoints}
-                    onChange={(e) => onUpdateAssignment({ ...assignment, totalPoints: parseFloat(e.target.value) })}
+                    onChange={(e) => handleAssignmentUpdate({ ...assignment, totalPoints: parseFloat(e.target.value) })}
                     className="w-16 px-2 py-1 border rounded"
                   />
                   <input
                     type="date"
                     value={assignment.date}
-                    onChange={(e) => onUpdateAssignment({ ...assignment, date: e.target.value })}
+                    onChange={(e) => handleAssignmentUpdate({ ...assignment, date: e.target.value })}
                     className="w-32 px-2 py-1 border rounded"
                   />
                   <select
                     value={assignment.categoryId}
-                    onChange={(e) => onUpdateAssignment({ ...assignment, categoryId: e.target.value })}
+                    onChange={(e) => handleAssignmentUpdate({ ...assignment, categoryId: e.target.value })}
                     className="w-32 px-2 py-1 border rounded"
                   >
                     <option value="">-</option>
@@ -153,9 +156,17 @@ export default function AssignmentList({ assignments, categories, onAddAssignmen
                       <option key={category.id} value={category.id}>{category.name}</option>
                     ))}
                   </select>
+                  <label className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        checked={assignment.graded}
+                        onChange={(e) => handleAssignmentUpdate({ ...assignment, graded: e.target.checked })}
+                      />
+                      <span>Graded</span>
+                    </label>
                   <button
                     onClick={() => onDeleteAssignment(assignment.id)}
-                    className="px-2 py-1 bg-red-500 text-white rounded"
+                    className="px-2 py-1 bg-red-500 text-black rounded"
                   >
                     Delete
                   </button>
@@ -205,6 +216,14 @@ export default function AssignmentList({ assignments, categories, onAddAssignmen
             onChange={(e) => setNewAssignment({ ...newAssignment, date: e.target.value })}
             className="w-full px-3 py-2 border rounded"
           />
+          <label className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              checked={newAssignment.graded}
+              onChange={(e) => setNewAssignment({ ...newAssignment, graded: e.target.checked })}
+            />
+            <span>Graded</span>
+          </label>
           <button
             onClick={() => {
               onAddAssignment(newAssignment);

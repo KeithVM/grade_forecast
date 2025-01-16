@@ -58,8 +58,10 @@ export default function ClassPage() {
   };
 
   const handleUpdateAssignment = (updatedAssignment) => {
-    setAssignments(assignments.map(a => a.id === updatedAssignment.id ? updatedAssignment : a));
-  };
+    setAssignments(assignments.map(a => 
+        a.id === updatedAssignment.id ? updatedAssignment : a
+    ));
+};
 
   const handleDeleteAssignment = (assignmentId) => {
     setAssignments(assignments.filter(a => a.id !== assignmentId));

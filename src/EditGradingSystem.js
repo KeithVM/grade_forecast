@@ -66,7 +66,11 @@ export default function EditGradingSystem() {
   };
 
   const handleCancel = () => {
-    navigate(-1);
+    {currentSystem && currentSystem.categories.length > 0 ? (
+        navigate(-1)
+      ) : (
+        navigate("/")
+      )}
   };
 
   const handleAddCategory = () => {
