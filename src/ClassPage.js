@@ -1,58 +1,73 @@
 import { React, useState, useEffect } from 'react';
 import './output.css';
-import { Link } from 'react-router-dom';
 import AssignmentList from './components/AssignmentList';
 import GradeSummary from './components/GradeSummary';
 import UpcomingAssignments from './components/UpcomingAssignments';
 import GradingSystemPreview from './components/GradingSystemPreview';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import GradeGraph from './components/GradeGraph.tsx';
 
 export default function ClassPage() {
-    const navigate = useNavigate();
-    const location = useLocation();
-    const { classItem } = location.state || {};
-    const classId = classItem ? classItem.id : null;
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { classItem } = location.state || {};
+  const classId = classItem ? classItem.id : null;
 
-    const [assignments, setAssignments] = useState(() => {
-        const savedAssignments = localStorage.getItem('assignments');
-        return savedAssignments ? JSON.parse(savedAssignments) : [];
-    });
+  const [assignments, setAssignments] = useState(() => {
+    const savedAssignments = localStorage.getItem(`assignments_${classId}`);
+    return savedAssignments ? JSON.parse(savedAssignments) : [];
+  });
 
-    const [currentSystemId, setCurrentSystemId] = useState(() => {
-        return localStorage.getItem('currentSystemId') || null;
-    });
+  const [currentSystemId, setCurrentSystemId] = useState(() => {
+    return localStorage.getItem(`currentSystemId_${classId}`) || null;
+  });
 
-    const [gradingSystems] = useState(() => {
-        const savedSystems = localStorage.getItem('gradingSystems');
-        return savedSystems ? JSON.parse(savedSystems) : [];
-    });
+  const [gradingSystems] = useState(() => {
+    const savedSystems = localStorage.getItem(`gradingSystems_${classId}`);
+    return savedSystems ? JSON.parse(savedSystems) : [];
+  });
 
-    useEffect(() => {
-        localStorage.setItem('assignments', JSON.stringify(assignments));
-    }, [assignments]);
-
-    useEffect(() => {
-        localStorage.setItem('currentSystemId', currentSystemId);
-    }, [currentSystemId]);
-
-    const currentSystem = gradingSystems.find(system => system.id === currentSystemId) || gradingSystems[0];
-
-    const handleAddAssignment = (newAssignment) => {
-        setAssignments([...assignments, newAssignment]);
-    };
-
-    const handleUpdateAssignment = (updatedAssignment) => {
-        setAssignments(assignments.map(a => a.id === updatedAssignment.id ? updatedAssignment : a));
-    };
-
-    const handleDeleteAssignment = (assignmentId) => {
-        setAssignments(assignments.filter(a => a.id !== assignmentId));
-    };
-
-    if (!classId) {
-        return <div>Class not found</div>;
+  useEffect(() => {
+    if (classId) {
+      localStorage.setItem(`assignments_${classId}`, JSON.stringify(assignments));
     }
+  }, [assignments, classId]);
+
+  useEffect(() => {
+    if (classId) {
+      localStorage.setItem(`currentSystemId_${classId}`, currentSystemId);
+    }
+  }, [currentSystemId, classId]);
+
+  useEffect(() => {
+    if (classId) {
+      localStorage.setItem(`gradingSystems_${classId}`, JSON.stringify(gradingSystems));
+    }
+  }, [gradingSystems, classId]);
+
+  useEffect(() => {
+    if (gradingSystems.length === 0 || !currentSystemId) {
+      navigate(`/class/${classId}/edit`, { state: { classId } });
+    }
+  }, [gradingSystems, currentSystemId, classId, navigate]);
+
+  const currentSystem = gradingSystems.find(system => system.id === currentSystemId) || gradingSystems[0];
+
+  const handleAddAssignment = (newAssignment) => {
+    setAssignments([...assignments, newAssignment]);
+  };
+
+  const handleUpdateAssignment = (updatedAssignment) => {
+    setAssignments(assignments.map(a => a.id === updatedAssignment.id ? updatedAssignment : a));
+  };
+
+  const handleDeleteAssignment = (assignmentId) => {
+    setAssignments(assignments.filter(a => a.id !== assignmentId));
+  };
+
+  if (!classId) {
+    return <div>Class not found</div>;
+  }
 
     return (
         <div>
@@ -69,7 +84,7 @@ export default function ClassPage() {
                                 <option key={system.id} value={system.id}>{system.name}</option>
                             ))}
                         </select>
-                        <Link to={`/class/${classItem.id}/edit`} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                        <Link to={`/class/${classId}/edit`} state={{ classId, systemId: currentSystemId }} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
                             Edit Grading System
                         </Link>
                     </div>

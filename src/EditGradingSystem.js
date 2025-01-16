@@ -1,30 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export default function EditGradingSystem() {
-    const navigate = useNavigate();
-
-  const [gradingSystems, setGradingSystems] = useState(() => {
-    const savedSystems = localStorage.getItem('gradingSystems');
-    return savedSystems ? JSON.parse(savedSystems) : [];
-  });
-
-  const [currentSystemId, setCurrentSystemId] = useState(() => {
-    return localStorage.getItem('currentSystemId') || null;
-  });
-
-  const [currentSystem, setCurrentSystem] = useState(null);
-  const [newCategoryName, setNewCategoryName] = useState('');
-  const [newCategoryWeight, setNewCategoryWeight] = useState('');
-
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { classId, systemId } = location.state || {};
+  
   useEffect(() => {
-    const system = gradingSystems.find(s => s.id === currentSystemId) || gradingSystems[0];
-    setCurrentSystem(system ? { ...system } : createNewSystem());
-  }, [currentSystemId, gradingSystems]);
-
-  useEffect(() => {
-    localStorage.setItem('gradingSystems', JSON.stringify(gradingSystems));
-  }, [gradingSystems]);
+    if (!classId) {
+      console.error('classId is missing, navigating to home.');
+      navigate('/');
+    } else {
+      console.log('classId:', classId);
+      console.log('systemId:', systemId);
+    }
+  }, [classId, systemId, navigate]);
 
   const createNewSystem = () => ({
     id: Date.now().toString(),
@@ -41,15 +31,41 @@ export default function EditGradingSystem() {
     targetGrade: 90,
   });
 
+  const [gradingSystems, setGradingSystems] = useState(() => {
+    const savedSystems = localStorage.getItem(`gradingSystems_${classId}`);
+    return savedSystems ? JSON.parse(savedSystems) : [];
+  });
+
+  const [currentSystem, setCurrentSystem] = useState(() => {
+    if (systemId) {
+      const system = gradingSystems.find(s => s.id === systemId);
+      return system ? { ...system } : createNewSystem();
+    }
+    return createNewSystem();
+  });
+
+  const [newCategoryName, setNewCategoryName] = useState('');
+  const [newCategoryWeight, setNewCategoryWeight] = useState('');
+
+  useEffect(() => {
+    if (classId) {
+      localStorage.setItem(`gradingSystems_${classId}`, JSON.stringify(gradingSystems));
+    }
+  }, [gradingSystems, classId]);
+
   const handleSave = () => {
     if (currentSystem) {
-      const updatedSystems = currentSystemId
-        ? gradingSystems.map(s => s.id === currentSystemId ? currentSystem : s)
+      const updatedSystems = systemId
+        ? gradingSystems.map(s => s.id === systemId ? currentSystem : s)
         : [...gradingSystems, currentSystem];
       setGradingSystems(updatedSystems);
-      setCurrentSystemId(currentSystem.id);
-      localStorage.setItem('currentSystemId', currentSystem.id);
+      localStorage.setItem(`gradingSystems_${classId}`, JSON.stringify(updatedSystems));
+      localStorage.setItem(`currentSystemId_${classId}`, currentSystem.id);
+      navigate(-1);
     }
+  };
+
+  const handleCancel = () => {
     navigate(-1);
   };
 
@@ -210,7 +226,7 @@ export default function EditGradingSystem() {
       </div>
       <div className="flex justify-between">
         <button
-          onClick={() => navigate(-1)}
+          onClick={handleCancel}
           className="px-4 py-2 bg-gray-500 text-white rounded"
         >
           Cancel
